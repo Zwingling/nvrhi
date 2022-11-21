@@ -219,6 +219,7 @@ namespace nvrhi::d3d12
         const D3D12_RESOURCE_DESC resourceDesc;
         RefCountPtr<ID3D12Resource> resource;
         uint8_t planeCount = 1;
+        HANDLE sharedHandle = nullptr;
         HeapHandle heap;
 
         Texture(const Context& context, DeviceResources& resources, TextureDesc desc, const D3D12_RESOURCE_DESC& resourceDesc)
@@ -234,6 +235,8 @@ namespace nvrhi::d3d12
         ~Texture() override;
         
         const TextureDesc& getDesc() const override { return desc; }
+
+        void* getSharedHandle() const override;
 
         Object getNativeObject(ObjectType objectType) override;
         Object getNativeView(ObjectType objectType, Format format, TextureSubresourceSet subresources, TextureDimension dimension, bool isReadOnlyDSV = false) override;
@@ -268,6 +271,7 @@ namespace nvrhi::d3d12
 
         RefCountPtr<ID3D12Fence> lastUseFence;
         uint64_t lastUseFenceValue = 0;
+        HANDLE sharedHandle = nullptr;
 
         Buffer(const Context& context, DeviceResources& resources, BufferDesc desc)
             : BufferStateExtension(this->desc)
@@ -279,6 +283,8 @@ namespace nvrhi::d3d12
         ~Buffer() override;
         
         const BufferDesc& getDesc() const override { return desc; }
+
+        void* getSharedHandle() const override;
 
         Object getNativeObject(ObjectType objectType) override;
 
