@@ -67,9 +67,11 @@ namespace nvrhi::d3d11
     public:
         TextureDesc desc;
         RefCountPtr<ID3D11Resource> resource;
+        HANDLE sharedHandle = nullptr;
 
         Texture(const Context& context) : m_Context(context) { }
         const TextureDesc& getDesc() const override { return desc; }
+        void* getSharedHandle() const;
         Object getNativeObject(ObjectType objectType) override;
         Object getNativeView(ObjectType objectType, Format format, TextureSubresourceSet subresources, TextureDimension dimension, bool isReadOnlyDSV = false) override;
 
@@ -101,9 +103,11 @@ namespace nvrhi::d3d11
     public:
         BufferDesc desc;
         RefCountPtr<ID3D11Buffer> resource;
+        HANDLE sharedHandle = nullptr;
         
         Buffer(const Context& context) : m_Context(context) { }
         const BufferDesc& getDesc() const override { return desc; }
+        void* getSharedHandle() const override;
         Object getNativeObject(ObjectType objectType) override;
 
         ID3D11ShaderResourceView* getSRV(Format format, BufferRange range, ResourceType type);
